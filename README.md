@@ -6,7 +6,7 @@ The I2S class is designed to be implemented on other MicroPython ports and follo
 
 from Wikipedia:
 
-"I²S (Inter-IC Sound), pronounced eye-squared-ess, is an electrical serial bus interface standard used for connecting digital 
+"IÂ²S (Inter-IC Sound), pronounced eye-squared-ess, is an electrical serial bus interface standard used for connecting digital 
 audio devices together. It is used to communicate PCM audio data between integrated circuits in an electronic device".
 
 # class I2S
@@ -17,9 +17,9 @@ audio devices together. It is used to communicate PCM audio data between integra
 from machine import I2S
 from machine import Pin
 
-bck_pin = machine.Pin(14)  # Bit clock output
-ws_pin = machine.Pin(13)   # Word clock output
-sdin_pin = machine.Pin(12) # Serial data input
+bck_pin = Pin(14)  # Bit clock output
+ws_pin = Pin(13)   # Word clock output
+sdin_pin = Pin(12) # Serial data input
 
 audio_in = I2S(I2S.NUM0,                                 # create I2S peripheral to read audio
                bck=bck_pin, ws=ws_pin, sdin=sdin_pin,    # sample data from an Adafruit I2S MEMS
@@ -43,9 +43,9 @@ num_bytes_read = audio_in.readinto(samples)              # read audio samples fr
 from machine import I2S
 from machine import Pin
 
-bck_pin = machine.Pin(14)   # Bit clock output
-ws_pin = machine.Pin(13)    # Word clock output
-sdout_pin = machine.Pin(12) # Serial data output
+bck_pin = Pin(14)   # Bit clock output
+ws_pin = Pin(13)    # Word clock output
+sdout_pin = Pin(12) # Serial data output
 
 audio_out = I2S(I2S.NUM1,                                  # create I2S peripheral to write audio
                 bck=bck_pin, ws=ws_pin, sdin=sdout_pin,    # sample data to an Adafruit I2S Amplifier
