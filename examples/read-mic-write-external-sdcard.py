@@ -29,9 +29,9 @@ from machine import Pin
 from machine import SPI
 
 SDCARD_SECTOR_SIZE = 512                    # typical sector size for SDCards, in bytes
-SAMPLE_BLOCK_SIZE = SDCARD_SECTOR_SIZE * 4  #  
-BYTES_PER_SAMPLE = 2
+SAMPLE_BLOCK_SIZE = SDCARD_SECTOR_SIZE * 4
 BITS_PER_SAMPLE = 16
+BYTES_PER_SAMPLE = BITS_PER_SAMPLE // 8
 SAMPLES_PER_SECOND = 16000
 RECORD_TIME_IN_SECONDS = 10
 
@@ -62,9 +62,9 @@ wav_header = gen_wav_header(SAMPLES_PER_SECOND, BITS_PER_SAMPLE, 1, SAMPLES_PER_
 
 bck_pin = Pin(14)
 ws_pin = Pin(13)
-sdin_pin = Pin(12)
+sdin_pin = Pin(27)
 
-audio_out = I2S(I2S.NUM0, bck=bck_pin, ws=ws_pin, sdin=sdin_pin, 
+audio_in = I2S(I2S.NUM0, bck=bck_pin, ws=ws_pin, sdin=sdin_pin, 
               standard=I2S.PHILIPS, mode=I2S.MASTER_RX,
               dataformat=I2S.B32, channelformat=I2S.RIGHT_LEFT,
               samplerate=SAMPLES_PER_SECOND,
@@ -73,7 +73,7 @@ audio_out = I2S(I2S.NUM0, bck=bck_pin, ws=ws_pin, sdin=sdin_pin,
 spi = SPI(1, sck=Pin(18), mosi=Pin(23), miso=Pin(19))
 sd = sdcard.SDCard(spi, Pin(4))
 uos.mount(sd, "/sd")
-s = open('/sd/mic_recording.wav','wb')
+s = open('/sd/mic_recording_16bits.wav','wb')
 s.write(wav_header)
 
 mic_samples = bytearray(SAMPLE_BLOCK_SIZE)
@@ -83,7 +83,7 @@ numwrite = 0
 
 for _ in range(WAV_DATA_SIZE // SDCARD_SECTOR_SIZE):
     try:
-        numread = audio_out.readinto(mic_samples)    
+        numread = audio_in.readinto(mic_samples)    
         prune(mic_samples, sd_samples)
         numwrite = s.write(sd_samples)
     except KeyboardInterrupt:  
@@ -91,4 +91,4 @@ for _ in range(WAV_DATA_SIZE // SDCARD_SECTOR_SIZE):
 s.close()
 uos.umount("/sd")
 spi.deinit()
-audio_out.deinit()
+audio_in.deinit()

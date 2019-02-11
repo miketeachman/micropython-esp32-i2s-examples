@@ -207,20 +207,18 @@ where `# channels` refers to mono versus stereo operation:
 example:  dmalen=128, dataformat=32bits, channelformat=RIGHT_LEFT (e.g. stereo)
   * sizeof-a-dma-buffer-in-bytes = 128 \* 4 \* 2 = 1024 bytes
 
-The `sizeof-a-dma-buffer-in-bytes` is important when considering how to use the optional `timeout` argument offered in the readinto and write methods.
+**Sizing 'buf' for readinto()**:  For efficient use of allocated memory, the sizeof `buf` should be an integer multiple of the DMA buffer size.  Larger `buf` sizes can be advantageous when writing samples to internal flash memory or external SDCards.  A larger `buf` will permit a continuous bulk write to memory, which is more efficient than multiple small block writes. 
 
-#### Understanding the timeout argument
+**Sizing 'buf' for write()**:  Similar to the read() method, the sizeof `buf` should be an integer multiple of the DMA buffer size.  For a *simple* design using the `timeout` argument, the sizeof `buf` can be equal to the sizeof the DMA buffer.  Why? The entire contents of `buf` can be written to a DMA memory buffer in one pass, which avoids possible design complications of dealing with residual samples remaining in `buf`.
+
+### Understanding the timeout argument
 The optional `timeout` argument in the readinto and write methods specifies the maximum amount of time (in ms) that these method calls wait for a DMA buffer to become available. If `timeout = 0` is specified, then the readinto and write methods will return "immediately" (measured ~125us) when:
   * no DMA buffer is available with data to read (readinto method)
   * no DMA buffer is available to be filled (write method) 
   
 The `timeout` argument allows application code to effectively poll DMA memory and then perform other operations when all DMA buffers are empty (readinto method) or full (write method).
 
-**Recommendation**:  When `timeout` is used, the sizeof `buf` in the readinto and write methods should be equal to or smaller than the size of a DMA buffer.  
-
-**Why**?  Consider a write method call - if there are not enough empty DMA buffers available to completely transfer `buf`, then only a portion of `buf` will be written to DMA memory.  The write method will return indicating the number of bytes written.  Some unwritten data will remain in `buf`.  This situation is unnecessarily complex to manage.  The software design becomes simpler when `buf` can be written to a DMA memory buffer in one pass.  Also, the sizeof a DMA buffer should be an integer multiple of the `buf` size. e.g. `sizeof-a-dma-buffer-in-bytes` = sizeof `buf` \* 2.   Following this recommendation allows writing DMA memory to be "all-or-nothing".
-
-### Understanding Channel Format
+### Understanding the Channel Format argument
 The `channelformat` constructor argument determines how sample data is mapped to the sdin, sdout, and bck I2S signals.  The relationships can be understood through example, showing oscilloscope captures of the relevant I2S signals.
 
 The following oscilloscope captures use data contained in the following WAV file:
@@ -281,11 +279,26 @@ MicroPython code:
 WAV file  (copy to file system using rshell, ampy, etc):
   * side-to-side-8k-16bits-stereo.wav
 
-#### 3. Record audio to SDCard WAV file using Adafruit I2S MEMS Microphone Breakout - SPH0645LM4H
+#### 3. Record 16 bit audio to SDCard WAV file using Adafruit I2S MEMS Microphone Breakout - SPH0645LM4H
 MicroPython code:
   * read-mic-write-external-sdcard.py
 
 Note: imports sdcard.py.  Copy sdcard.py into filesystem from micropython/drivers/sdcard folder 
+
+#### 4. Record 16 bit audio to internal filesystem using INMP441 Microphone
+MicroPython code:
+  * read-mono-mic-write-internal-flash.py
+
+Note:  Compared to example 3, this implementation uses 1/4 the DMA memory and does not require a prune() function.  Credit:  @MikeShi42 
+
+#### 5. Record 32 bit audio to SDCard WAV file using Adafruit I2S MEMS Microphone Breakout - SPH0645LM4H
+MicroPython code:
+  * read-mono-mic-write-external-sdcard-32bits.py
+
+Notes: 
+  * imports sdcard.py.  Copy sdcard.py into filesystem from micropython/drivers/sdcard folder
+  * uses efficient DMA configuration.  Credit:  @MikeShi42 
+
 ### Testing Setup
 
 ![Setup far](images/test-setup-1.JPG)
