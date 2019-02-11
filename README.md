@@ -201,8 +201,8 @@ It is intuitive to think that `sizeof-a-dma-buffer-in-bytes` equals `dmalen`. **
 `sizeof-a-dma-buffer-in-bytes = dmalen * # bytes/sample * # channels`
 
 where `# channels` refers to mono versus stereo operation:
-  * mono = 1 channel, (channelformat=ONLY_RIGHT, ONLY_LEFT, ALL_RIGHT, or ALL_LEFT)
-  * stereo = 2 channels, (channelformat=RIGHT_LEFT)
+  * mono = 1 channel, (channelformat=ONLY_RIGHT, ONLY_LEFT)
+  * stereo = 2 channels, (channelformat=RIGHT_LEFT, ALL_RIGHT, or ALL_LEFT)
 
 example:  dmalen=128, dataformat=32bits, channelformat=RIGHT_LEFT (e.g. stereo)
   * sizeof-a-dma-buffer-in-bytes = 128 \* 4 \* 2 = 1024 bytes
