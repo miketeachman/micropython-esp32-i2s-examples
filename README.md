@@ -120,6 +120,7 @@ Read audio samples from an I2S peripheral with the given arguments:
   
 Notes:  
   * method blocks until buf is *completely* filled from DMA memory, unless timeout is specified 
+  * The DMA engine works in the background, filling DMA buffers with audio samples read from the I2S peripheral.  The MicroPython runtime is not impacted by this DMA operation.
 
 **Returns** number of bytes read  
 
@@ -134,6 +135,7 @@ Write audio samples to I2S peripheral with the given arguments:
     
 Notes:  
   * method blocks until buf is *completely* copied to DMA memory, unless timeout is specified 
+  * The DMA engine works in the background, transfering audio sample from DMA buffers to the I2S peripheral.  The MicroPython runtime is not impacted by this DMA operation.
 
 **Returns** number of bytes written      type
 ***
