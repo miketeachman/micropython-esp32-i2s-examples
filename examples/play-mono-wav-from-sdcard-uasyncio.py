@@ -84,7 +84,7 @@ async def play_wav():
             else:
                 # loop until all samples are written to the I2S peripheral
                 while num_written < num_read:
-                    num_written += audio_out.write(wav_samples_mv, timeout=0)
+                    num_written += audio_out.write(wav_samples_mv[num_written:num_read], timeout=0)
             await asyncio.sleep_ms(10)
     except (KeyboardInterrupt, Exception) as e:
         print('caught exception {} {}'.format(type(e).__name__, e))
