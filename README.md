@@ -185,6 +185,7 @@ See section below "Understanding Channel Format"
 ### I2S DAC and Amplifier Boards Tested
    * Adafruit I2S 3W Class D Amplifier Breakout - MAX98357A
    * I2S PCM5102 Stereo DAC Decoder available on ebay, aliexpress, amazon
+   * Wondom 2 x 30W Class D Audio Amplifier Board & DAC, based on TI TAS5756 device
 
 ### Pre-built Firmware Binaries
 Pre-built firmware binaries that support I2S are available in the [firmware folder](firmware).  Binaries are provided for the regular ESP32 module and the enhanced ESP32 module with external PSRAM.
