@@ -324,6 +324,17 @@ Test board using Lolin D32 Pro development board
 Test board using Lolin D32 development board with external SD card module
 ![I2S Test Fixture - Lolin D32 with external SD card](images/test-fixture-sdcard.JPG)
 
+### Troubleshooting
+#### Problem:  Microphone recording has no sound
+Possible cause: `channelformat` is reversed.  This problem might be due to an I2S bug fix that Espressif made in July 2019.  Espressif swapped the I2S left-right channel orientation in ESP-IDF v3.3.1 in July 2019.  The MicroPython mainline switched to ESP-IDF v3.3.1 on Jan 14, 2020.  All I2S examples in the repository are based on having the bug fix in place.  If your MicroPython firmware was created before Jan 14, 2020 and you are using the most recent examples, then the `channelformat` argument in the constructor will be reversed.  Most I2S mono microphone boards are configured to output samples on the Left channel.  For firmware created before Jan 14, 2020 `channelformat=I2S.ONLY_RIGHT`.  For firmware created after Jan 14, 2020 `channelformat=I2S.ONLY_LEFT`.
+
+[Espressif Issue #3399](https://github.com/espressif/esp-idf/commit/ff325e84b65e88547ed5508ae1de82232f2d8f43)
+
+MicroPython pulled in this ESP-IDF v3.3.1 release on Jan 14, 2020.
+[commit:  3032ae1155db4bd89786f715f5227967d2cb71cf](https://github.com/micropython/micropython/commit/3032ae1155db4bd89786f715f5227967d2cb71cf)
+
+
+
 ### Future development of I2S on MicroPython
 The initial I2S class offers basic capabilities to implement many audio I2S applications.  Here is a wishlist for future development:
  * integrate the I2S implementation into mainstream MicroPython
