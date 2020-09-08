@@ -279,6 +279,7 @@ MicroPython code:
   * record-mono-mic-to-sdcard.py
 
 Note:  I2S microphones often have 24 bits of resolution.  In practice, using only 16 bits of audio data (throwing out the lower 8 bits) is adequate resolution for audio applications.  [https://www.mojo-audio.com/blog/the-24bit-delusion/](https://www.mojo-audio.com/blog/the-24bit-delusion/)
+
 #### Example 4. Uasyncio example:  Play mono WAV file stored in SD card
 MicroPython code:
   * play-mono-wav-from-sdcard-uasyncio.py
@@ -290,6 +291,12 @@ WAV files used in the example code (copy to the SD card)
 Notes:
 * uasyncio V3 is used
 * all co-routines are not shutdown when a ctrl-C is performed.  A board reset will be needed.
+
+#### Example 5. Record 16 bit audio to internal flash WAV file
+MicroPython code:
+  * record-mono-mic-to-internal-flash.py
+
+Note:  I2S microphones often have 24 bits of resolution.  In practice, using only 16 bits of audio data (throwing out the lower 8 bits) is adequate resolution for audio applications.  [https://www.mojo-audio.com/blog/the-24bit-delusion/](https://www.mojo-audio.com/blog/the-24bit-delusion/)
 
 ### Hardware Test Setup
 [Pre-built firmware binaries](firmware) and [example MicroPython code](examples) were tested on the hardware fixtures shown in the photos below.  The ESP32 pin mappings used in the hardware board are shown in the following table.  The SD card is mapped to 4 pins (CS: pin4, SCK: pin18, MISO: pin19, MOSI: pin23).  The first photo shows the Lolin D32 Pro board which has an integrated SD card.  The second photo shows a Lolin D32 board with an external SD card module added using jumpers.
