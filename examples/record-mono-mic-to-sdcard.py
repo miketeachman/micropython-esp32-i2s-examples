@@ -85,10 +85,12 @@ audio_in = I2S(
     dmalen=NUM_SAMPLES_IN_DMA_BUFFER
 )
 
-# configure SD card
+# configure SD card:
+# See [docs](https://docs.micropython.org/en/latest/library/machine.SDCard.html#esp32) for
+# recommended pins depending on the chosen slot.
 #   slot=2 configures SD card to use the SPI3 controller (VSPI), DMA channel = 2
 #   slot=3 configures SD card to use the SPI2 controller (HSPI), DMA channel = 1
-sd = SDCard(slot=3, sck=Pin(18), mosi=Pin(23), miso=Pin(19), cs=Pin(4))
+sd = SDCard(slot=2, sck=Pin(18), mosi=Pin(23), miso=Pin(19), cs=Pin(5))
 uos.mount(sd, "/sd")
 wav = open('/sd/mic_left_channel_16bits.wav','wb')
 
