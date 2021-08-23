@@ -2,7 +2,7 @@
 
 # MicroPython I2S Guide and Examples for ESP32
 
-**Deprecation Notice:   These examples are associated with a MicroPython PR that is now obsolete.  Users are recommended to use a [new MicroPython PR](https://github.com/micropython/micropython/pull/7183) and a [new set of examples](https://github.com/miketeachman/micropython-i2s-examples) that support this new PR.  It is expected that the new PR will be accepted into an official MicroPython release**
+**Deprecation Notice:   These examples are associated with a MicroPython PR that is now obsolete. I2S is now supported in official MicroPython builds, since July 5, 2021.  Binaries can be downloaded at [MicroPython downloads](https://micropython.org/download/). A [new set of examples](https://github.com/miketeachman/micropython-i2s-examples) is available that works with Pyboards and the ESP32.**
 
 This guide outlines the capabilities of a new MicroPython [I2S](https://en.wikipedia.org/wiki/I%C2%B2S) class that has been developed for the MicroPython project.  The I2S class works on ESP32 processors and is implemented using Espressif's [ESP-IDF API](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/i2s.html).  To use I2S with MicroPython you will need to make a custom MicroPython build and integrate a [pull request](https://github.com/micropython/micropython/pull/4471) into the build.  Or, download and program your ESP32 board using one of the pre-built [firmware binaries](firmware).
 ***
